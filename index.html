@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101815"><title>Terrain Operations | Digital Twin</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="topbar"><a class="brand" href="/"><span class="brand-mark">△</span><span>FIELD<span class="muted">/TWIN</span><small>TACTICAL SIMULATION SYSTEM</small></span></a><div class="top-status"><i></i> LOCAL SIMULATION <span class="divider"></span><span id="clock">--:--:-- Z</span></div><button class="icon-button mobile-menu" id="menuToggle" aria-label="Toggle settings">☰</button></header>
+  <main class="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="section-label">MISSION CONTROL <span class="live-pill">LIVE</span></div>
+      <div class="mission"><div class="mission-icon">⌖</div><div><b>RIDGE LINE / 07</b><small>Autonomous reconnaissance</small></div><span class="chevron">⌄</span></div>
+      <div class="section-label section-gap">ENVIRONMENT</div>
+      <div class="environment-card"><div class="env-head"><span class="pin">◎</span><div><b id="scenarioName">Loading area…</b><small id="crs">Loading coordinate system</small></div></div><div class="env-meta"><span>GRID</span><b id="gridMeta">—</b><span>RESOLUTION</span><b id="resolution">—</b></div></div>
+      <div class="section-label section-gap">SIMULATION LAYERS</div>
+      <label class="layer-row"><span class="layer-symbol elevation">⌁</span><span><b>Elevation model</b><small>Terrain · 10 m DEM</small></span><input type="checkbox" id="elevationToggle" checked><i class="switch"></i></label>
+      <label class="layer-row"><span class="layer-symbol threat">◉</span><span><b>Threat field</b><small>Relative exposure index</small></span><input type="checkbox" id="threatToggle" checked><i class="switch"></i></label>
+      <label class="layer-row"><span class="layer-symbol obstacles">▧</span><span><b>Impassable terrain</b><small>Known obstructions</small></span><input type="checkbox" id="obstacleToggle" checked><i class="switch"></i></label>
+      <div class="section-label section-gap">PATHFINDING PROFILE</div>
+      <div class="slider-label"><span>Risk aversion</span><b id="riskValue">4.0×</b></div><input id="riskSlider" class="range" type="range" min="0" max="12" step="0.5" value="4"><div class="range-ends"><span>FASTEST</span><span>LOWEST EXPOSURE</span></div>
+      <div class="section-label section-gap">MISSION WAYPOINTS</div>
+      <div class="waypoint"><span class="waypoint-dot start-dot"></span><span><small>ORIGIN</small><b id="startCoord">—</b></span><button id="pickStart" title="Select start on map">⌖</button></div>
+      <div class="waypoint"><span class="waypoint-dot goal-dot"></span><span><small>DESTINATION</small><b id="goalCoord">—</b></span><button id="pickGoal" title="Select destination on map">⌖</button></div>
+      <button id="planButton" class="primary-button"><span>⤳</span> PLAN AUTONOMOUS ROUTE <b>↗</b></button>
+      <div class="sidebar-foot"><span>●</span> SYSTEM READY <small>v1.0.0 · LOCAL</small></div>
+    </aside>
+    <section class="workspace">
+      <div class="map-toolbar"><div class="map-title"><span class="breadcrumb">OPERATIONS</span><span>/</span><b>3D TERRAIN VIEW</b><span class="view-tag">ISOMETRIC</span></div><div class="map-actions"><button class="toolbar-button" id="resetView" title="Reset map view">⟲ <span>RESET VIEW</span></button><button class="toolbar-button" id="exportGeo">⇩ <span>EXPORT GEOJSON</span></button></div></div>
+      <div class="canvas-wrap"><canvas id="terrain" aria-label="Isometric 3D terrain map, click to set waypoints"></canvas><div class="map-crosshair">+</div><div class="north">N <span>↑</span></div><div class="map-legend"><b>MAP KEY</b><span><i class="legend-gradient"></i>Threat exposure</span><span><i class="legend-block"></i>Obstacle</span><span><i class="legend-line"></i>Planned route</span></div><div class="map-hint" id="mapHint">Drag to rotate · Scroll to zoom · Click map to set waypoint</div><div class="zoom-controls"><button id="zoomIn" aria-label="Zoom in">+</button><button id="zoomOut" aria-label="Zoom out">−</button></div><div id="toast" class="toast" role="status"></div><div class="loading" id="loading">LOADING TERRAIN DATA…</div></div>
+      <div class="statusbar"><span><i class="green-dot"></i> TERRAIN DATA READY</span><span id="cursorPos">GRID —</span><span>SIM TIME <b id="simTime">00:00</b></span><span class="status-spacer"></span><span id="unitStatus">1 UNIT · READY</span></div>
+      <section class="results"><div class="results-heading"><div><span class="section-label">ROUTE ANALYSIS</span><h1 id="resultTitle">Awaiting mission plan</h1></div><span class="algorithm-tag">A* / 8-CONNECTED</span></div><div class="metric-grid"><div class="metric"><small>TRAVEL DISTANCE</small><b id="distanceMetric">— <em>m</em></b><span>Terrain-adjusted path</span></div><div class="metric"><small>MEAN THREAT EXPOSURE</small><b id="exposureMetric">— <em>/ 1.00</em></b><span>Along planned corridor</span></div><div class="metric"><small>SEARCH NODES</small><b id="nodesMetric">—</b><span>Expanded by A*</span></div><div class="metric"><small>ROUTE EFFICIENCY</small><b id="efficiencyMetric">— <em>%</em></b><span>Vs. direct distance</span></div></div><div class="route-note" id="routeNote"><span>ⓘ</span> Select <b>Plan Autonomous Route</b> to calculate a low-exposure path across the digital terrain.</div></section>
+      <footer>TRAINING SIMULATION ONLY <span>•</span> FICTIONAL TERRAIN AND THREAT DATA <span>•</span> NOT FOR REAL-WORLD OPERATIONS</footer>
+    </section>
+  </main>
+  <script src="/static/app.js" defer></script>
+</body>
+</html>
